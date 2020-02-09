@@ -2,6 +2,7 @@ package edu.smith.cs.csc212.aquarium;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import me.jjfoley.gfx.GFX;
 
@@ -41,29 +42,56 @@ public class Aquarium extends GFX {
 		super(WIDTH, HEIGHT);
 	}
 
-	int fish1X = getWidth() + 100;
-	int fish2X = getWidth() + 300;
+	int fish1X = 100;
+	int fish2X = 300;
+	int fish3X = 200;
+	
+	final int HIGH = 450;
+	final int LOW = 50;
 
+	Random rand = new Random();
+	
+	final int destY= rand.nextInt(HIGH-LOW) + LOW;
+	final int destX= rand.nextInt(HIGH-LOW) + LOW;
+	
+	
+	Fish nemo = new Fish(Color.magenta, 
+			250, 250, true, true, destX, destY);
+	
+	Fish marlin = new Fish(Color.orange, 
+			100, 100, true, true, destX, destY);
+	Fish greenFish = new Fish(Color.green, 
+			fish2X, 300, true,false, destX, destY);
+	Fish redFish = new Fish(Color.red, 
+			fish3X, 100, true, true, destX, destY);
+	Fish yellowFish = new Fish(Color.yellow,
+			fish1X, 200, true, true, destX, destY);	
+
+	Bubble bubble = new Bubble(Color.white, 450, 500);
 	@Override
 	public void draw(Graphics2D g) {
 		// Draw the "ocean" background.
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, getWidth(), getHeight());
 
-		// Draw the fish!
-		DrawFish.facingLeft(g, Color.yellow, fish1X, 200);
-		// Draw the confused fish!
-		DrawFish.facingRight(g, Color.green, fish2X, 300);
-
-		// What if we wanted this little fish to swim, too?
-		DrawFish.smallFacingLeft(g, Color.red, 200, 100);
-
+		nemo.draw(g);
+		marlin.draw(g);
+		greenFish.draw(g);
+		redFish.draw(g);
+		yellowFish.draw(g);
+		bubble.draw(g);
 		// Draw our snail!
 		algorithm.draw(g);
 
 		// Move the fish!
-		fish1X -= 1;
-		fish2X -= 2;
+		fish1X -= 2;
+		fish2X -= 4;
+		fish3X += 6;
+		
+		if (fish3X > getWidth() + 100) {
+			fish3X = -100;
+		}
+		
 	}
 
 	public static void main(String[] args) {
