@@ -31,69 +31,84 @@ public class Aquarium extends GFX {
 	/**
 	 * Put a snail on the top of the tank.
 	 */
-	Snail algorithm = new Snail(177, Snail.HEIGHT + 1, "top");
-
+	Snail algorithm = new Snail(100, Snail.HEIGHT + 1, "top");
 	/**
 	 * This is a constructor, code that runs when we make a new Aquarium.
 	 */
+	Bubble[] bubble10 = new Bubble[10];
+	HungryFish[] hungryfish = new HungryFish[5];
+	Fish[] fish10 = new Fish[10];
+	Random rand = new Random();	
+	final int HIGH = 450;
+	final int LOW = 50;
+	int destY= rand.nextInt((HIGH-LOW) + LOW);
+	int destX= rand.nextInt((HIGH-LOW) + LOW);
+	int startY= rand.nextInt((HIGH-LOW) + LOW);
+	int startX= rand.nextInt((HIGH-LOW) + LOW);
 	public Aquarium() {
 		// Here we ask GFX to make our window of size WIDTH and HEIGHT.
 		// Don't change this here, edit the variables instead.
-		super(WIDTH, HEIGHT);
+		
+	super(WIDTH, HEIGHT);
+	int BubbleX = 370;
+	int BubbleY = 400;
+	
+	for (int i = 0; i < this.fish10.length; i++) {
+		Color rcolor = Color.getHSBColor( rand.nextFloat(), 0.8f, 0.8f);
+		boolean isSmall = true;
+		boolean isFacingLeft = rand.nextBoolean();
+		int startY= rand.nextInt((HIGH-LOW) + LOW);
+		int startX= rand.nextInt((HIGH-LOW) + LOW);
+		this.fish10[i] = new Fish(rcolor, startX, startY,
+				isSmall,isFacingLeft, destX,destY);
+		}
+	for (int i=0; i<this.bubble10.length; i++) {
+		bubble10[i] = new Bubble(Color.white, 
+				BubbleX,BubbleY,rand.nextInt((25-5) + 5));
+		BubbleX += rand.nextInt((20-5) + 5);
+		BubbleY += rand.nextInt((50-5) + 5);
+		}
+	for (int i = 0; i < this.hungryfish.length; i++) {
+		//Color rcolor = Color.getHSBColor( rand.nextFloat(), 0.8f, 0.8f);
+		boolean isSmall = true;
+		boolean isFacingLeft = rand.nextBoolean();
+		int startY= rand.nextInt((HIGH-LOW) + LOW);
+		int startX= rand.nextInt((HIGH-LOW) + LOW);
+		this.hungryfish[i] = new HungryFish(Color.white, startX, startY,
+				isSmall,isFacingLeft, destX,destY);
+		}
 	}
-
-	int fish1X = 100;
-	int fish2X = 300;
-	int fish3X = 200;
+	Fish Jaws = new Fish(Color.white,startX, startY, false, true, destX, destY);
 	
-	final int HIGH = 450;
-	final int LOW = 50;
-
-	Random rand = new Random();
+	HungryFish specialkelp = new HungryFish(Color.green, 
+			200, 450, true, true, destX, destY);
 	
-	final int destY= rand.nextInt(HIGH-LOW) + LOW;
-	final int destX= rand.nextInt(HIGH-LOW) + LOW;
+	Bubble box = new Bubble(Color.cyan, 
+			450,450,rand.nextInt((25-5) + 5));
 	
+	HungryFish kelparea = new HungryFish(Color.green, 
+			200, 450, true, true, destX, destY);
 	
-	Fish nemo = new Fish(Color.magenta, 
-			250, 250, true, true, destX, destY);
-	
-	Fish marlin = new Fish(Color.orange, 
-			100, 100, true, true, destX, destY);
-	Fish greenFish = new Fish(Color.green, 
-			fish2X, 300, true,false, destX, destY);
-	Fish redFish = new Fish(Color.red, 
-			fish3X, 100, true, true, destX, destY);
-	Fish yellowFish = new Fish(Color.yellow,
-			fish1X, 200, true, true, destX, destY);	
-
-	Bubble bubble = new Bubble(Color.white, 450, 500);
-	@Override
 	public void draw(Graphics2D g) {
-		// Draw the "ocean" background.
 		g.setColor(Color.blue);
 		g.fillRect(0, 0, getWidth(), getHeight());
-
-		nemo.draw(g);
-		marlin.draw(g);
-		greenFish.draw(g);
-		redFish.draw(g);
-		yellowFish.draw(g);
-		bubble.draw(g);
-		// Draw our snail!
+		for (Bubble bubble: this.bubble10) {
+			bubble.draw(g);
+		}
+		box.drawBox(g);
+		for (Fish fishes: this.fish10) {
+			fishes.draw(g);
+		}
+		for (HungryFish fishes: this.hungryfish) {
+			fishes.draw(g);
+		}	
+		Jaws.draw(g);
+		kelparea.drawarea(g);
+		specialkelp.drawkelp(g);
 		algorithm.draw(g);
 
-		// Move the fish!
-		fish1X -= 2;
-		fish2X -= 4;
-		fish3X += 6;
-		
-		if (fish3X > getWidth() + 100) {
-			fish3X = -100;
-		}
 		
 	}
-
 	public static void main(String[] args) {
 		// Uncomment this to make it go slower!
 		// GFX.FPS = 10;

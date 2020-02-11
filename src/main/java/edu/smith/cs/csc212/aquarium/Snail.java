@@ -50,6 +50,22 @@ public class Snail {
 	 * TODO: move the snail about.
 	 */
 	public void move() {
+		if (this.x < 450 && this.y == 51) {
+			this.x += 5;	
+			this.direction = "top";
+		}
+		if (this.x == 450 && this.y < 500) {
+			this.y += 5;
+			this.direction = "right";
+		}
+		if (this.x < 500 && this.y == 451) {
+			this.x -= 5;
+			this.direction = "bottom";
+		}
+		if(this.x == 50 && this.y < 500) {
+			this.y -= 5;
+			this.direction = "left";
+		}
 
 	}
 

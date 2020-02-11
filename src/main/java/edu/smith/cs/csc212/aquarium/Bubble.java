@@ -4,48 +4,51 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 
 public class Bubble {
 	// Every fish has a x which is an int.
 		int x;
 		int y;
 		Color color;
-		boolean isLittle;
-		boolean facingLeft;
 		// every fish has a destination: (x,y)
 		int destX;
 		int destY;
-		//int destXHigh = destX + 10;
-		//int destXLow = destX - 10;
-		//int destYHigh = destX + 10;
-		//int destYLow = destX - 10;
+		int howBig;
 		
-		public Bubble(Color c, 
-				int startX, int startY) {
+		public Bubble(Color c, int startX, int startY, int howBig) {
 			this.color = c;
 			this.x = startX;
-			this.y = startY;	
+			this.y = startY;
+			this.howBig = howBig;
 		}
+		
 		public void swimup() {
-			this.y -= 2;
+			this.y -= 1;
 			
 			if (this.y == 0 ) {
-				this.y = 700;
-					
+				this.y = 700;	
 			}
 		}
-		public void draw(Graphics2D g) {
+		public void draw(Graphics2D g) {	
 			this.swimup();
-			// fish face left and are small
-			// smallFacingRight, facingLeft, and facingRight
-			
 			g.setColor(color);
-			Shape eye = new Ellipse2D.Double(x - 15, y - 10, 20, 20);
-			// draw bubble outline.
-			g.setColor(Color.white);
-			// draw bubble:
-			g.fill(eye);
+			Shape bubble = new Ellipse2D.Double(x - 15, y - 10, this.howBig+10, this.howBig+10);
+			g.setColor(this.color);
+			g.fill(bubble);
 
 		}
-
+		public void drawBox(Graphics2D g) {
+			Shape Box1 = new Rectangle2D.Double(350, 460, 150, 100);
+			g.fill(Box1);
+			g.setColor(Color.magenta);
+			g.draw(Box1);
+			
+			Shape Box2 = new Rectangle2D.Double(350, 457, 150, 15);
+			g.fill(Box2);
+			g.setColor(Color.cyan);
+			g.draw(Box2);
+			
+			
+		}
 }
